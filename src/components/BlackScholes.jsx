@@ -12,9 +12,9 @@ const handleOptionChange = (event) => {
 };
 
 return(
-  <div className="w-full xl:w-2/3 ">
+  <div className="w-full xl:w-2/3 animate-fade-in">
            { crr ? ( 
-           <div className=''>
+           <div className='animate-fade-in flex flex-col gap-6 justify-between'>
 
 <div className="text-center grid grid-cols-3 gap-4 px-4 py-2 z-60">
       <div className="bg-slate-100 rounded-2xl p-4 w-full ">
@@ -125,7 +125,7 @@ return(
           Put
         </div>
         <lord-icon
-          src="https://cdn.lordicon.com/rmkahxvq.json"
+          src="https://cdn.lordicon.com/dwoxxgps.json"
           trigger="loop"
           delay="1000"
           colors="primary:#ffffff"
@@ -137,29 +137,47 @@ return(
 
       
     </div>
-
-    <div className=" w-full mt-4 mx-auto">
+{  callplotData && putplotData ? (
+    <div className=" w-full  mx-auto">
+      
         {/* Conditional rendering based on selected option */}
-        {selectedOption === 'call' && (
-          <div className="mx-auto -mt-6 w-[100vh] mt-4">
+        {selectedOption === 'call' && callplotData && (
+          <div className="mx-auto w-[100vh] ">
            
-           <img src={`data:image/png;base64,${callplotData}`} alt="Call Option Plot" />
+           <img  className="h-[60vh] w-[100vw] -mt-8" src={`data:image/png;base64,${callplotData}`} alt="Call Option Plot" />
            </div>
-        )}
-        {selectedOption === 'put' && (
-          <div className="mx-auto -mt-6 w-[100vh] mt-4">
-      <img src={`data:image/png;base64,${putplotData}`} alt="Call Option Plot" />
+        ) }
+
+
+        {selectedOption === 'put' && putplotData && (
+          <div className="mx-auto w-[100vh]">
+            
+            <img className="h-[60vh] w-[100vw] -mt-8" src={`data:image/png;base64,${putplotData}`} alt="Call Option Plot" />
 
           </div>
         )}
-      </div>
+      </div> ) : (
+            
+            <div class="mx-auto flex w-[80vh] flex-col items-center rounded-3xl border-4 bg-white px-6 py-8 text-center">
+              <div class="mb-6 text-5xl fill-blue-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"  viewBox="0 0 512 512"><path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64L0 400c0 44.2 35.8 80 80 80l400 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 416c-8.8 0-16-7.2-16-16L64 64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z"/></svg>
+                
+               
+              </div>
+              <p class="mb-2 text-xl font-medium text-gray-600">Your Plots are not generated yet</p>
+              <p class="text-gray-500">Make sure the CRR button is checked and try again.</p>
+            </div>
+            
+        
+        
+        ) }
 
            </div>
           
            ) : (  
             // if crr is false
           <div>
-             <div className=" text-center m-4 h-full xl:h-[95vh] flex flex-col gap-4 px-4 py-8  ">
+             <div className=" text-center m-4 h-full xl:h-[95vh] flex flex-col gap-4 px-4 py-8  animate-fade-in">
               <div className="h-full xl:h-[30vh] p-6 bg-gray-100 flex flex-col justify-center rounded-lg">
                 <p className="text-[5vh] font-medium ">Strike price: </p>
                 <p className="text-[7vh] font-extrabold ">{strike_price}$</p>

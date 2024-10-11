@@ -76,7 +76,7 @@ function App() {
     // Show loader while waiting for the response
     setLoading(true);
     try {
-        const response = await axios.post("https://stockvision-9lfd.onrender.com", {
+        const response = await axios.post("http://127.0.0.1:8000", {
             model: selectedModel,
             ticker: ticker,
             strike: strike,
@@ -128,7 +128,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await axios.post("https://stockvision-9lfd.onrender.com", {
+      const response = await axios.post("http://127.0.0.1:8000", {
         model: selectedModel,
         ticker: ticker,
         volatility: volatility,
@@ -171,7 +171,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await axios.post("https://stockvision-9lfd.onrender.com", {
+      const response = await axios.post("http://127.0.0.1:8000", {
         ticker: ticker,
         model: selectedModel,
         start_date: start_date,
@@ -205,7 +205,7 @@ function App() {
     
 
     try {
-      const response = await axios.post("https://stockvision-9lfd.onrender.com", {
+      const response = await axios.post("http://127.0.0.1:8000", {
         model: selectedModel,
         vasicek_volatility: vasicek_volatility,
         initial_short_rate: initial_short_rate,
@@ -398,7 +398,7 @@ function App() {
 
 {/* Vasicek results */}
 {!loading && selectedModel === "vasicek" && vasicekResult ? (
-    <div className="w-full h-full xl:h-screen xl:w-2/3 text-slate-600 m-auto p-2">
+    <div className="w-full h-full xl:h-screen xl:w-2/3 text-slate-600 m-auto p-2 animate-fade-in">
         <div className="grid grid-cols-3 gap-4 justify-between text-center py-4 mx-auto">
             <div className="bg-white overflow-hidden shadow sm:rounded-lg py-3 flex flex-col justify-center">
                 <dl>

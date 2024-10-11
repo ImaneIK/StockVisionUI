@@ -15,7 +15,7 @@ const BinomialandTrinomial = ({binomial_plot, trinomial_plot}) => {
 
 return(
 
-<div className="h-[100vh]  relative">
+<div className="h-[100vh]  relative animate-fade-in">
       <div className="w-[100vh] mx-auto" style={{ scrollSnapType: 'x mandatory' }}>
         {/* First Carousel Slide */}
         <div className="">

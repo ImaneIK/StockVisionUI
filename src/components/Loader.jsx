@@ -4,7 +4,7 @@ function Loader() {
 
   return (
 
-<div className="h-[100vh] w-2/3 px-4 flex flex-col gap-1 justify-center ">
+<div className="h-[100vh] w-2/3 px-4 flex flex-col gap-1 justify-center animate-fade-in">
             <div className=" h-1/2 grid grid-cols-2 gap-2  sm:py-4 ">
               <div className="rounded-md h-full w-full flex flex-col gap-3 p-8 bg-blue-400 animate-pulse">
                 <div className="h-[12vh] w-[12vh] bg-blue-300 rounded-full"></div>

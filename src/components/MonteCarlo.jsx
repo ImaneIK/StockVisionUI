@@ -14,7 +14,7 @@ const MonteCarlo = (
   };
 
   return (
-    <div className="w-full h-full xl:h-screen  xl:w-2/3 text-slate-600 m-auto p-2 ">
+    <div className="w-full h-full xl:h-screen  xl:w-2/3 text-slate-600 m-auto p-2 animate-fade-in">
       
            <div>
             <div className=" h-full xl:h-[35vh] w-full grid grid-cols-1 md:grid-cols-2 gap-4 p-1">
