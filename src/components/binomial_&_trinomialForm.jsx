@@ -1,37 +1,36 @@
-import React, { useState } from "react";
 
 
-const BlackScholesForm = (
+const BinomialandTrinomialForm = (
     {
-        handleBlackScholesSubmit, ticker, setTicker, volatility,
-        setVolatility, period, setPeriod, strike, setStrike, interest_rate,
-        setInterestRate, start_date, setStartDate, end_date, setEndDate, divedend, setDivedend, crr, setCRR
-    }
+        handleBinomialandTrinomialSubmit, ticker, setTicker, time,
+        setTime, strike, setStrike, interest_rate,
+        setInterestRate, start_date, setStartDate, end_date, setEndDate, 
+        number_of_steps, setNumberOfSteps, method_type, setMethodType, option_type, setOptionType    }
 ) =>
-{
+{  
     
-  const [isChecked, setIsChecked] = useState(false);
+   
 
-  const handleCheckboxChange = () => {
-    setIsChecked(prev => {
-        const newCheckedState = !prev;
-        setCRR(newCheckedState); // Set the crr state based on checkbox state
-        return newCheckedState; // Return the new state for isChecked
-    });
-};
-  
+    const handleMethodTypeChange = (e) => {
+        setMethodType(e.target.checked);
+    };
+
+    const handleOptionType = (event) => {
+        setOptionType(event.target.id);
+    };
+    
   return (
 
         <div className="px-2  md:px-8 py-4 flex flex-col justify-center  h-full text-[2vh]">
                   <h2 className="block mb-2 text-[4vh] font-bold text-center xl:text-left">
-                   Black Scholes merton
+                   binomial & trinomial
                   </h2>
                   <p className="block mb-2 text-[2vh] text-center xl:text-left ">
                     Fill in the feilds below to run a simulation
                   </p>
                   {/* <a href="#" className="mb-10 block font-bold text-white-600">Have an account</a> */}
     
-                  <form className="mt-4 form grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-2 xl:h-[50vh]" onSubmit={handleBlackScholesSubmit}>
+                  <form className="mt-4 form grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-2 xl:h-[50vh]" onSubmit={handleBinomialandTrinomialSubmit}>
                                         
                       {/* ticker */}
                       <div className="mb-3 w-full ">
@@ -49,38 +48,19 @@ const BlackScholesForm = (
                         />
                       </div>
 
-    
-                    
-                    
-                      {/* Volatility */}
+
+                        {/* Time to expiration in years */}
                       <div className="mb-3 w-full ">
                         <label className="font-semibold text-white-600 py-2">
-                          Volatility <abbr title="required">*</abbr>
+                            Time to expiration in years <abbr title="required">*</abbr>
                         </label>
                         <input
-                          value={volatility}
-                          onChange={(e) => setVolatility(e.target.value)}
-                          placeholder="volatility"
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
+                          placeholder="Time to expiration in years"
                           className="block lg:h-[7vh]  w-full px-4 py-2 mt-2 text-white bg-transparent border border-gray-300 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
-                          name="volatility"
-                          id="volatility"
-                          required
-                        />
-                      </div>
-
-
-                        {/* period */}
-                      <div className="mb-3 w-full ">
-                        <label className="font-semibold text-white-600 py-2">
-                          period <abbr title="required">*</abbr>
-                        </label>
-                        <input
-                          value={period}
-                          onChange={(e) => setPeriod(e.target.value)}
-                          placeholder="period"
-                          className="block lg:h-[7vh]  w-full px-4 py-2 mt-2 text-white bg-transparent border border-gray-300 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
-                          name="period"
-                          id="period"
+                          name="time"
+                          id="time"
                           required
                         />
                       </div>
@@ -103,21 +83,7 @@ const BlackScholesForm = (
                         />
                       </div>
 
-                        {/* divedend */}
-                        <div className="mb-3 w-full ">
-                        <label className="font-semibold text-white-600 py-2">
-                        divedend <abbr title="required">*</abbr>
-                        </label>
-                        <input
-                          value={divedend}
-                          onChange={(e) => setDivedend(e.target.value)}
-                          placeholder="divedend"
-                          className="block lg:h-[7vh] w-full px-4 py-2 mt-2 text-white bg-transparent border border-gray-300 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
-                          name="divedend"
-                          id="divedend"
-                          required
-                        />
-                      </div>
+                       
     
                       {/* interest_rate */}
                       <div className="mb-3 w-full ">
@@ -131,6 +97,27 @@ const BlackScholesForm = (
                           className="block lg:h-[7vh] w-full px-4 py-2 mt-2 text-white bg-transparent border border-gray-300 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
                           name="interest_rate"
                           id="interest_rate"
+                          required
+                        />
+                      </div>
+
+
+
+             
+
+
+                      {/* Number of steps */}
+                      <div className="mb-3 w-full ">
+                        <label className="font-semibold text-white-600 py-2">
+                        Number of steps <abbr title="required">*</abbr>
+                        </label>
+                        <input
+                          value={number_of_steps}
+                          onChange={(e) => setNumberOfSteps(e.target.value)}
+                          placeholder="number of steps"
+                          className="block lg:h-[7vh] w-full px-4 py-2 mt-2 text-white bg-transparent border border-gray-300 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
+                          name="down_factor"
+                          id="number_of_steps"
                           required
                         />
                       </div>
@@ -169,15 +156,96 @@ const BlackScholesForm = (
                         />
                       </div>
 
-                      <label>
-                <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                />
-                Calculate CRR and Generate Graph
-            </label>
-    
+
+                    
+                    
+
+
+                 {/* american or european */}
+                 <div className="flex  w-full flex-col sm:flex-row  items-center gap-4 ">
+                 
+                  <div class="relative flex w-full  xl:h-[7vh]  items-center justify-center rounded-xl bg-blue-50 px-4 py-3 font-medium text-blue-700">
+                  <input
+      type="checkbox"
+      id="methodType"
+      checked={method_type}
+      onChange={handleMethodTypeChange}
+      className="peer hidden"
+    />
+
+    {/* Label (Clickable and with styles based on checkbox state) */}
+    <label
+      htmlFor="methodType"
+      className={`${
+        method_type
+          ? "border-blue-400 bg-blue-200"
+          : "border-transparent bg-blue-50"
+      } absolute top-0 h-full w-full cursor-pointer rounded-xl border`}
+    ></label>
+
+    {/* Checkbox circle that changes with peer-checked */}
+    <div className="peer-checked:border-transparent peer-checked:bg-blue-400 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-blue-300 bg-blue-200 ring-blue-400 ring-offset-2"></div>
+
+    {/* Text changes based on state */}
+    <span className="pointer-events-none z-10 text-[2.5vh]">
+      {method_type ? "American" : "European"}
+    </span> </div>
+                 
+                </div>
+
+                {/* call or put */}
+                <div className="flex  w-full flex-col sm:flex-row  items-center gap-4 ">
+                 
+                 <div class="relative flex w-full  xl:h-[7vh]  items-center justify-center rounded-xl bg-blue-50 px-4 py-3 font-medium text-blue-700">
+                   <input
+                     className="peer hidden"
+                     type="radio"
+                     name="call"
+                     id="call"
+                     checked={option_type === "call"}
+                     onChange={handleOptionType}
+                   />
+                   <label
+                     className={`${
+                       option_type === "call"
+                         ? "border-blue-400 bg-black-200"
+                         : "border-transparent bg-blue-50"
+                     } absolute top-0 h-full w-full cursor-pointer rounded-xl border`}
+                     htmlFor="call"
+                     for="call"
+                   >
+                     {" "}
+                   </label>
+                   <div class="peer-checked:border-transparent peer-checked:bg-blue-400 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-blue-300 bg-blue-200 ring-blue-400 ring-offset-2"></div>
+                   <span class="pointer-events-none z-10 text-[2.5vh]">Call</span>
+                 </div>
+                 
+                 <div class="relative flex w-full xl:h-[7vh] items-center justify-center rounded-xl bg-blue-50 px-4 py-3 font-medium text-blue-700">
+                   <input
+                     class="peer hidden"
+                     type="radio"
+                     name="put"
+                     id="put"
+                     checked={option_type === "put"}
+                       onChange={handleOptionType}
+                   />
+                   <label
+                     className={`${
+                       option_type === "put"
+                         ? "border-blue-400 bg-blue-200"
+                         : "border-transparent bg-blue-50"
+                     } absolute top-0 h-full w-full cursor-pointer rounded-xl border`}
+                     htmlFor="put"
+                     for="put"
+                   >
+                     {" "}
+                   </label>
+                   <div class="peer-checked:border-transparent peer-checked:bg-blue-400 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-blue-300 bg-blue-200 ring-blue-400 ring-offset-2"></div>
+                   <span class="pointer-events-none z-10 text-[2.5vh]">Put</span>
+                 </div>
+               </div>
+
+
                     {/* buttons */}
                     <div className="flex mt-2 justify-center items-center text-right  ">
                       {/* <button
@@ -201,4 +269,4 @@ const BlackScholesForm = (
     );
 }
 
-export default BlackScholesForm;
+export default BinomialandTrinomialForm;

@@ -9,11 +9,16 @@ import MonteCarloForm from "./components/MonteCarloForm";
 import BlackScholesForm from "./components/BlackScholesForm";
 import Toggle from "./components/Toggle";
 import VasicekForm from "./components/VasicekForm";
+import BinomialandTrinomialForm from "./components/binomial_&_trinomialForm";
+import BinomialandTrinomial from "./components/BinomalandTrinomial";
+// import BinomialandTrinomial from "./components/BinomalandTrinomial";
 
 function App() {
   const [selectedModel, setSelectedModel] = useState("MonteCarlo");
   const [ticker, setTicker] = useState("");
   const [monteCarloResult, setmonteCarloResult] = useState("");
+  const [binomialandtrinomialResult, setbinomialandtrinomialResult] = useState(false);
+
   const [blackScholesResult, setblackScholesResult] = useState("");
   const [loading, setLoading] = useState(false);
   const [start_date, setStartDate] = useState("");
@@ -45,9 +50,16 @@ function App() {
   const [number_of_paths, setNumberOfPaths] = useState(null);
   const [number_of_steps, setNumberOfSteps] = useState(null);
   const [vasicekResult, setVasicekResult] = useState("");
+  const [callplotData, setCallPlotData] = useState(null); 
+  const [putplotData, setPutPlotData] = useState(null);
+  const [crr, setCRR] = useState(false);
   const [, setVasicekPlot] = useState("");
 
-  
+  const [time, setTime] = useState(null);
+  const [binomial_plot, setBinomialPlotData] = useState(null);
+  const [trinomial_plot, setTrinomialPlotData] = useState(null);
+  const [method_type, setMethodType] = useState(true);
+  const [option_type, setOptionType] = useState("call");
 
 
 
@@ -57,6 +69,58 @@ function App() {
     setSelectedModel(value);
   };
 
+
+  const handleBinomialandTrinomialSubmit = async (e) => {
+    e.preventDefault();
+
+    // Show loader while waiting for the response
+    setLoading(true);
+    try {
+        const response = await axios.post("http://localhost:8000/", {
+            model: selectedModel,
+            ticker: ticker,
+            strike: strike,
+            time: time,
+            interest_rate: interest_rate,
+            number_of_steps: number_of_steps,
+            start_date: start_date,
+            end_date: end_date,
+            option_type: option_type,
+            method_type: method_type,
+        });
+
+        console.log(
+          selectedModel,
+          ticker,
+          strike,
+          time,
+          interest_rate,
+          number_of_steps,
+          start_date,
+          end_date,
+          option_type,
+          method_type);
+
+        console.log("after sending request");
+        console.log("result:", response.data);
+
+        
+        setBinomialPlotData(response.data.result.binomial_tree_plot); 
+        setTrinomialPlotData(response.data.result.trinomial_tree_plot); 
+
+        setbinomialandtrinomialResult(true); 
+
+        console.log(response.data.result.binomial_tree_plot)
+
+    } catch (error) {
+        console.error("Response data:", error.response?.data);
+    } finally {
+        // Hide loader after response (whether success or error)
+        setLoading(false);
+    }
+};
+
+
   const handleBlackScholesSubmit = async (e) => {
     e.preventDefault();
 
@@ -64,7 +128,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await axios.post("https://stockvision-9lfd.onrender.com", {
+      const response = await axios.post("http://localhost:8000/", {
         model: selectedModel,
         ticker: ticker,
         volatility: volatility,
@@ -73,7 +137,8 @@ function App() {
         interest_rate: interest_rate,
         start_date: start_date,
         end_date: end_date,
-        divedend:divedend
+        divedend:divedend,
+        crr:crr
       });
 
       console.log("after sending request");
@@ -87,6 +152,10 @@ function App() {
       setPut(blackScholesResult.put);
       setCallDecision(blackScholesResult.call_decision);
       setPutDecision(blackScholesResult.put_decision);
+
+
+      setCallPlotData(blackScholesResult.crr_call_plot_data);
+      setPutPlotData(blackScholesResult.crr_put_plot_data);
     } catch (error) {
       console.error("Response data:", error.response.data);
     } finally {
@@ -102,7 +171,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await axios.post("https://stockvision-9lfd.onrender.com", {
+      const response = await axios.post("http://localhost:8000/", {
         ticker: ticker,
         model: selectedModel,
         start_date: start_date,
@@ -136,7 +205,7 @@ function App() {
     
 
     try {
-      const response = await axios.post("https://stockvision-9lfd.onrender.com", {
+      const response = await axios.post("http://localhost:8000/", {
         model: selectedModel,
         vasicek_volatility: vasicek_volatility,
         initial_short_rate: initial_short_rate,
@@ -153,14 +222,14 @@ function App() {
 
       const vasicekResult = response.data.result;
 
-      console.log("result:", vasicekResult);
+      console.log("result:", response);
 
       setVasicekResult(vasicekResult);
       setVasicekPlot(vasicekResult.plot); 
 
    
     } catch (error) {
-      console.error("Response data:", error.response.data);
+      console.error("Response data:", error);
     } finally {
       // Hide loader after response (whether success or error)
       setLoading(false);
@@ -171,7 +240,7 @@ function App() {
     <div>
       {/* forms */}
       <div className=" mx-auto flex xl:h-[90vh] flex-col xl:flex-row ">
-        <div className="w-full xl:w-1/3 bg-blue-700 h-full  xl:h-[100vh] text-white ">
+        <div className="w-full xl:w-1/3 bg-blue-700 h-full  xl:h-[100vh] text-white overflow-y-auto">
           {/* toggle to choose between the two algos */}
           <Toggle
             selectedModel={selectedModel}
@@ -202,6 +271,8 @@ function App() {
               setEndDate={setEndDate}
               divedend={divedend}
               setDivedend={setDivedend}
+              crr={crr}
+              setCRR={setCRR}
             ></BlackScholesForm>
           </div>
 
@@ -253,81 +324,133 @@ function App() {
               handleVasicekSubmit={handleVasicekSubmit}
             ></VasicekForm>
           </div>
+
+          {/* binomial_&_trinomial form */}
+          <div
+            className={` ${
+              selectedModel === "binomial_and_trinomial" ? "block " : "hidden"
+            }`}
+          >
+            <BinomialandTrinomialForm
+              end_date={end_date}
+              handleBinomialandTrinomialSubmit={handleBinomialandTrinomialSubmit}
+              interest_rate={interest_rate}
+              number_of_steps={number_of_steps}
+              setEndDate={setEndDate}
+              setInterestRate={setInterestRate}
+              setNumberOfSteps={setNumberOfSteps}
+              setStartDate={setStartDate}
+              setStrike={setStrike}
+              setTicker={setTicker}
+              setTime={setTime}
+              start_date={start_date}
+              strike={strike}
+              ticker={ticker}
+              time={time}
+              method_type={method_type}
+              option_type={option_type}
+              setMethodType={setMethodType}
+              setOptionType={setOptionType}
+              
+            ></BinomialandTrinomialForm>
+          </div>
         </div>
 
-        {/* loader */}
-        {loading && <Loader></Loader>}
+        {/* Loader */}
+{loading && <Loader />}
 
-        {/* intro */}
-        {!loading && !monteCarloResult && !blackScholesResult && !vasicekResult && <Hero></Hero>}
+{/* Hero Component for when no results are displayed */}
+{/* {!loading && !monteCarloResult && !blackScholesResult && !vasicekResult && !binomialandtrinomialResult && <Hero />} */}
 
-        {/* MonteCarlo results */}
-        {!loading && selectedModel === "MonteCarlo" && monteCarloResult && (
-          <MonteCarlo
-            days={days}
-            ticker={ticker}
-            probabilityOfBreakeven={probabilityOfBreakeven}
-            returnPercentage={returnPercentage}
-            expectedValue={expectedValue}
-            monteCarloResult={monteCarloResult}
-            path1={path1}
-            path2={path2}
-          />
-        )}
-
-        {/* BlackScholes results */}
-        {!loading && selectedModel === "BlackScholes" && blackScholesResult && (
-          <BlackScholes
-            strike_price={strike_price}
-            call={call}
-            put={put}
-            call_decision={call_decision}
-            put_decision={put_decision}
-          ></BlackScholes>
-        )}
-
-
-        {/* vasicek results */}
-{!loading && selectedModel === "vasicek" &&  vasicekResult &&(
-  <div className="w-full h-full xl:h-screen  xl:w-2/3 text-slate-600 m-auto p-2 ">
-    <div className="grid grid-cols-3 gap-4 justify-between text-center py-4 mx-auto">
-                  <div className="bg-white overflow-hidden shadow sm:rounded-lg py-3 flex flex-col justify-center ">
-                    <dl>
-                      <dt className="text-[3vh] font-medium text-black ">Mean reversion speed</dt>
-                      <dd className="mt-1 text-[5vh]  font-semibold text-blue-600">
-                      {vasicekResult.a_est}
-                      </dd>
-                    </dl>
-                  </div>
-
-                  <div className="bg-white overflow-hidden shadow sm:rounded-lg py-3 flex flex-col justify-center ">
-                    <dl>
-                      <dt className="text-[3vh] font-medium text-black ">Long-term mean</dt>
-                      <dd className="mt-1 text-[5vh]  font-semibold text-blue-600">
-                      {vasicekResult.b_est}
-                      </dd>
-                    </dl>
-                  </div>
-
-                  <div className="bg-white overflow-hidden shadow sm:rounded-lg py-3 flex flex-col justify-center ">
-                    <dl>
-                      <dt className="text-[3vh] font-medium text-black ">Volatility</dt>
-                      <dd className="mt-1 text-[5vh]  font-semibold text-blue-600">
-                      {vasicekResult.sigma_est}
-                      </dd>
-                    </dl>
-                  </div>
-  
-    </div>
-    
-    {/* Render the plot if available */}
-    {vasicekResult.plot && (
-      <div>
-        <img src={`data:image/png;base64, ${vasicekResult.plot}`} alt="Vasicek Simulation Plot" />
-      </div>
-    )}
-  </div>
+{/* Monte Carlo results */}
+{!loading && selectedModel === "MonteCarlo" && monteCarloResult ? (
+    <MonteCarlo
+        days={days}
+        ticker={ticker}
+        probabilityOfBreakeven={probabilityOfBreakeven}
+        returnPercentage={returnPercentage}
+        expectedValue={expectedValue}
+        monteCarloResult={monteCarloResult}
+        path1={path1}
+        path2={path2}
+    />
+  ) : (
+    // Show the Hero component if the selected model is Vasicek and no result is available
+    !loading && selectedModel === "MonteCarlo" && !monteCarloResult && <Hero />
 )}
+
+{/* Black Scholes results */}
+{!loading && selectedModel === "BlackScholes" && blackScholesResult ?  (
+    <BlackScholes
+        strike_price={strike_price}
+        call={call}
+        put={put}
+        call_decision={call_decision}
+        put_decision={put_decision}
+        callplotData={callplotData}
+        putplotData={putplotData}
+        crr={crr}
+    />
+  ) : (
+    // Show the Hero component if the selected model is Vasicek and no result is available
+    !loading && selectedModel === "BlackScholes" && <Hero />
+)}
+
+{/* Vasicek results */}
+{!loading && selectedModel === "vasicek" && vasicekResult ? (
+    <div className="w-full h-full xl:h-screen xl:w-2/3 text-slate-600 m-auto p-2">
+        <div className="grid grid-cols-3 gap-4 justify-between text-center py-4 mx-auto">
+            <div className="bg-white overflow-hidden shadow sm:rounded-lg py-3 flex flex-col justify-center">
+                <dl>
+                    <dt className="text-[3vh] font-medium text-black">Mean reversion speed</dt>
+                    <dd className="mt-1 text-[5vh] font-semibold text-blue-600">
+                        {vasicekResult.a_est}
+                    </dd>
+                </dl>
+            </div>
+            <div className="bg-white overflow-hidden shadow sm:rounded-lg py-3 flex flex-col justify-center">
+                <dl>
+                    <dt className="text-[3vh] font-medium text-black">Long-term mean</dt>
+                    <dd className="mt-1 text-[5vh] font-semibold text-blue-600">
+                        {vasicekResult.b_est}
+                    </dd>
+                </dl>
+            </div>
+            <div className="bg-white overflow-hidden shadow sm:rounded-lg py-3 flex flex-col justify-center">
+                <dl>
+                    <dt className="text-[3vh] font-medium text-black">Volatility</dt>
+                    <dd className="mt-1 text-[5vh] font-semibold text-blue-600">
+                        {vasicekResult.sigma_est}
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        {/* Render the plot if available */}
+        {vasicekResult.plot && (
+            <div>
+                <img src={`data:image/png;base64, ${vasicekResult.plot}`} alt="Vasicek Simulation Plot" />
+            </div>
+        )}
+    </div>
+) : (
+    // Show the Hero component if the selected model is Vasicek and no result is available
+    !loading && selectedModel === "vasicek" && !vasicekResult && <Hero />
+)}
+
+{/* Binomial and Trinomial results */}
+{!loading && selectedModel === "binomial_and_trinomial" && binomialandtrinomialResult ? (
+    <div className="w-full xl:w-2/3">
+        <BinomialandTrinomial binomial_plot={binomial_plot} trinomial_plot={trinomial_plot} />
+    </div>
+) : (
+    // Show the Hero component if the selected model is Binomial and Trinomial and no result is available
+    !loading && selectedModel === "binomial_and_trinomial" && !binomialandtrinomialResult && <Hero />
+)}
+
+
+
+
       </div>
     </div>
   );
