@@ -76,7 +76,7 @@ function App() {
     // Show loader while waiting for the response
     setLoading(true);
     try {
-        const response = await axios.post("http://127.0.0.1:8000", {
+        const response = await axios.post("https://sentiment-analysis-backend-5m0u.onrender.com", {
             model: selectedModel,
             ticker: ticker,
             strike: strike,
@@ -128,7 +128,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000", {
+      const response = await axios.post("https://sentiment-analysis-backend-5m0u.onrender.com", {
         model: selectedModel,
         ticker: ticker,
         volatility: volatility,
@@ -171,7 +171,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000", {
+      const response = await axios.post("https://sentiment-analysis-backend-5m0u.onrender.com", {
         ticker: ticker,
         model: selectedModel,
         start_date: start_date,
@@ -205,7 +205,7 @@ function App() {
     
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000", {
+      const response = await axios.post("https://sentiment-analysis-backend-5m0u.onrender.com", {
         model: selectedModel,
         vasicek_volatility: vasicek_volatility,
         initial_short_rate: initial_short_rate,
