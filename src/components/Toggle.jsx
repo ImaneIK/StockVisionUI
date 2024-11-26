@@ -50,6 +50,19 @@ const Toggle = ({ selectedModel,handleModelChange}) => {
               {" "}
               B&T{" "}
             </button>
+
+
+            <button
+              className={`bg-blue-700 inline-flex w-full items-center h-10 xl:h-[8vh] px-4 -mb-px text-[2.5vh]  text-center inline-flex py-2 px-3 font-medium transition-all duration-50 ease-in-out ${
+                selectedModel === "YC"
+                  ? "  text-white rounded-tl-lg border-t border-l border-r decoration-white"
+                  : "   text-white border-b decoration-white"
+              } whitespace-nowrap `}
+              onClick={() => handleModelChange("YC")}
+            >
+              {" "}
+              YC{" "}
+            </button>
           </nav>
     );
 }
