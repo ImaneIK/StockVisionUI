@@ -76,7 +76,8 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://stockvision-9lfd.onrender.com",
+        // "http:s://stockvision-9lfd.onrender.com",
+          "http://localhost:8000",
         {
           model: selectedModel,
           ticker: ticker,
@@ -105,7 +106,8 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://stockvision-9lfd.onrender.com",
+        // "https://stockvision-9lfd.onrender.com",
+         "http://localhost:8000",
         {
           model: selectedModel,
           ticker: ticker,
@@ -140,7 +142,8 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://stockvision-9lfd.onrender.com",
+        // "https://stockvision-9lfd.onrender.com",
+        "http://localhost:8000",
         {
           ticker: ticker,
           model: selectedModel,
@@ -168,7 +171,8 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://stockvision-9lfd.onrender.com",
+        // "https://stockvision-9lfd.onrender.com",
+        "http://localhost:8000",
         {
           model: selectedModel,
           vasicek_volatility: vasicek_volatility,
@@ -183,6 +187,7 @@ function App() {
       const result = response.data.result;
       setVasicekResult(result);
       setVasicekPlot(result.plot);
+      // console.log("Vasicek response:", response.data.result.plot);
     } catch (error) {
       console.error("Response data:", error);
     } finally {
@@ -395,18 +400,11 @@ function App() {
                       <CardContent>
                         {vasicekPlot && (
                           <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-                             <Plot
-                                  data={JSON.parse(vasicekPlot).data}
-                                  layout={{
-                                    ...JSON.parse(vasicekPlot).layout,
-                                    paper_bgcolor: 'rgba(0,0,0,0)',
-                                    plot_bgcolor: 'rgba(0,0,0,0)',
-                                    font: { color: '#fff' },
-                                    autosize: true
-                                  }}
-                                  useResizeHandler={true}
-                                  style={{ width: "100%", height: "500px" }}
-                                />
+                            <img 
+                              src={`data:image/png;base64,${vasicekPlot}`}
+                              alt="Vasicek Simulation"
+                              style={{ width: "100%", height: "auto" }}
+                            />
                           </div>
                         )}
                       </CardContent>
@@ -422,7 +420,12 @@ function App() {
                         {binomial_plot && (
                           <div className="bg-black/20 p-4 rounded-xl border border-white/5">
                             <h4 className="text-lg font-medium mb-4">Binomial Tree</h4>
-                             <Plot
+                            <img 
+                              src={`data:image/png;base64,${binomial_plot}`}
+                              alt="Binomial Tree Simulation"
+                              style={{ width: "100%", height: "auto" }}
+                            />
+                             {/* <Plot
                                   data={JSON.parse(binomial_plot).data}
                                   layout={{
                                     ...JSON.parse(binomial_plot).layout,
@@ -433,13 +436,18 @@ function App() {
                                   }}
                                   useResizeHandler={true}
                                   style={{ width: "100%", height: "500px" }}
-                                />
+                                /> */}
                           </div>
                         )}
                         {trinomial_plot && (
                           <div className="bg-black/20 p-4 rounded-xl border border-white/5">
                             <h4 className="text-lg font-medium mb-4">Trinomial Tree</h4>
-                             <Plot
+                            <img 
+                              src={`data:image/png;base64,${trinomial_plot}`}
+                              alt="Trinomial Simulation"
+                              style={{ width: "100%", height: "auto" }}
+                            />
+                             {/* <Plot
                                   data={JSON.parse(trinomial_plot).data}
                                   layout={{
                                     ...JSON.parse(trinomial_plot).layout,
@@ -450,7 +458,7 @@ function App() {
                                   }}
                                   useResizeHandler={true}
                                   style={{ width: "100%", height: "500px" }}
-                                />
+                                /> */}
                           </div>
                         )}
                       </CardContent>
