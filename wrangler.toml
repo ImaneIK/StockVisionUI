@@ -1,6 +1,17 @@
 name = "stockvision"
 compatibility_date = "2026-02-18"
 
-# Deploy your Vite build as a static site
-[site]
-bucket = "./dist"
+main = "dist/index.js"
+compatibility_date = "2024-01-01"
+
+[build]
+command = "npm run build"
+cwd = "."
+watch_paths = ["src/**/*.tsx", "src/**/*.ts"]
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[[routes]]
+pattern = "*"
+#zone_name = "yourdomain.com"  # Replace with your domain
