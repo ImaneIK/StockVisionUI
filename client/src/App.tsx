@@ -76,8 +76,7 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        // "http:s://stockvision-9lfd.onrender.com",
-          "http://localhost:8000",
+        import.meta.env.REACT_APP_API_URL || "http://localhost:8000",
         {
           model: selectedModel,
           ticker: ticker,
@@ -104,10 +103,9 @@ function App() {
   const handleBlackScholesSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try {
+    try { 
       const response = await axios.post(
-        // "https://stockvision-9lfd.onrender.com",
-         "http://localhost:8000",
+        import.meta.env.REACT_APP_API_URL || "http://localhost:8000",
         {
           model: selectedModel,
           ticker: ticker,
@@ -142,8 +140,7 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        // "https://stockvision-9lfd.onrender.com",
-        "http://localhost:8000",
+        import.meta.env.REACT_APP_API_URL || "http://localhost:8000",
         {
           ticker: ticker,
           model: selectedModel,
@@ -171,8 +168,7 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        // "https://stockvision-9lfd.onrender.com",
-        "http://localhost:8000",
+        import.meta.env.REACT_APP_API_URL || "http://localhost:8000",
         {
           model: selectedModel,
           vasicek_volatility: vasicek_volatility,
@@ -186,7 +182,7 @@ function App() {
       );
       const result = response.data.result;
       setVasicekResult(result);
-      setVasicekPlot(result.plot);
+      setVasicekPlot(result?.plot);
       // console.log("Vasicek response:", response.data.result.plot);
     } catch (error) {
       console.error("Response data:", error);
@@ -196,16 +192,71 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
-      <Hero backgroundImage={heroImage} />
-      
+    <div className="relative h-screen bg-black overflow-hidden">
+
+
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-emerald-950/20"></div>
+
+
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          style={{
+            width: '140%',                // slightly oversized → better coverage when rotating
+            height: '140%',
+            backgroundSize: 'contain',    // or 'cover' — 'contain' often looks nicer for blobs
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundImage: `url("data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22 gradientTransform=%22rotate(-45 .5 .5)%22%3E%3Cstop offset=%220%25%22 stop-color=%22%23b6bdc0%22%2F%3E%3Cstop offset=%22100%25%22 stop-color=%22%23f2f4f3%22%2F%3E%3C%2FlinearGradient%3E%3CclipPath id=%22a%22%3E%3Cpath fill=%22currentColor%22 d=%22M845.5 643.5Q842 787 708.5 856t-262 14Q318 815 251 715T141 484.5Q98 354 186.5 232T418 131.5Q561 153 717 170t144 173.5q-12 156.5-15.5 300Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg clip-path=%22url(%23a)%22%3E%3Cpath fill=%22url(%23b)%22 d=%22M845.5 643.5Q842 787 708.5 856t-262 14Q318 815 251 715T141 484.5Q98 354 186.5 232T418 131.5Q561 153 717 170t144 173.5q-12 156.5-15.5 300Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")`,
+            transformOrigin: 'center center',
+          }}
+          className="
+      absolute 
+      -top-4/7 left-1/6
+      blur-3xl 
+      animate-slow-rotate
+    "
+        />
+      </div>
+
+
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          style={{
+            width: '140%',                // slightly oversized → better coverage when rotating
+            height: '140%',
+            backgroundSize: 'contain',    // or 'cover' — 'contain' often looks nicer for blobs
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundImage: `url("data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22 gradientTransform=%22rotate(-45 .5 .5)%22%3E%3Cstop offset=%220%25%22 stop-color=%22%23b6bdc0%22%2F%3E%3Cstop offset=%22100%25%22 stop-color=%22%23f2f4f3%22%2F%3E%3C%2FlinearGradient%3E%3CclipPath id=%22a%22%3E%3Cpath fill=%22currentColor%22 d=%22M845.5 643.5Q842 787 708.5 856t-262 14Q318 815 251 715T141 484.5Q98 354 186.5 232T418 131.5Q561 153 717 170t144 173.5q-12 156.5-15.5 300Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg clip-path=%22url(%23a)%22%3E%3Cpath fill=%22url(%23b)%22 d=%22M845.5 643.5Q842 787 708.5 856t-262 14Q318 815 251 715T141 484.5Q98 354 186.5 232T418 131.5Q561 153 717 170t144 173.5q-12 156.5-15.5 300Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")`,
+            transformOrigin: 'center center',
+          }}
+          className="
+      absolute 
+      -bottom-6/7 right-1/3 
+      blur-3xl 
+      animate-slow-rotate
+    "
+        />
+      </div>
+
+
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-gray-400/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-emerald-600/10 rounded-full blur-xl"></div>
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-cyan-500/20 via-teal-500/10 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-blue-500/20 via-slate-600/10 to-transparent rounded-full blur-3xl"></div>
+      </div>
+
+<div className="overflow-auto h-full w-full">
+
+<Hero />
       <main className="container mx-auto pb-20">
         <Toggle selectedModel={selectedModel} handleModelChange={handleModelChange} />
 
         <div className="mt-8 px-4">
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             {/* Input Forms */}
-            <div className="xl:col-span-1">
+            <div className="xl:col-span-1 ">
               {selectedModel === "MonteCarlo" && (
                 <MonteCarloForm
                   ticker={ticker} setTicker={setTicker}
@@ -274,7 +325,7 @@ function App() {
             </div>
 
             {/* Results Section */}
-            <div className="xl:col-span-2">
+            <div className="xl:col-span-2 h-full">
               {loading && (
                 <div className="flex items-center justify-center h-96 glass-card rounded-xl">
                   <div className="text-center">
@@ -299,11 +350,11 @@ function App() {
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                           <div className="p-4 bg-black/20 rounded-lg border border-white/5">
                             <p className="text-sm text-gray-400">Expected Value</p>
-                            <p className="text-2xl font-bold font-mono text-primary">{expectedValue}</p>
+                            <p className="text-2xl font-bold font-mono text-gray-100">{expectedValue}</p>
                           </div>
                           <div className="p-4 bg-black/20 rounded-lg border border-white/5">
                             <p className="text-sm text-gray-400">Return</p>
-                            <p className="text-2xl font-bold font-mono text-green-400">{returnPercentage}%</p>
+                            <p className="text-2xl font-bold font-mono text-gray-100">{returnPercentage}%</p>
                           </div>
                           <div className="p-4 bg-black/20 rounded-lg border border-white/5">
                             <p className="text-sm text-gray-400">Days</p>
@@ -314,8 +365,8 @@ function App() {
                             <p className="text-2xl font-bold font-mono">{probabilityOfBreakeven}%</p>
                           </div>
                         </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <div className="grid grid-cols-1 gap-4">
                           <div className="rounded-xl overflow-hidden border border-white/10">
                             <img src={path1} alt="Simulation Path 1" className="w-full h-auto" />
                           </div>
@@ -336,8 +387,8 @@ function App() {
                         <div className="grid grid-cols-2 gap-4 mb-8">
                           <div className="p-6 bg-black/20 rounded-lg border border-white/5 text-center">
                             <p className="text-sm text-gray-400 mb-2">Call Option</p>
-                            <p className="text-3xl font-bold font-mono text-green-400 mb-2">{call}</p>
-                            <div className="inline-block px-3 py-1 bg-green-500/10 text-green-400 rounded-full text-xs font-medium uppercase border border-green-500/20">
+                            <p className="text-3xl font-bold font-mono text-gray-100 mb-2">{call}</p>
+                            <div className="inline-block px-3 py-1 bg-gray-200/10 text-gray-100 rounded-full text-xs font-medium uppercase border border-gray-500/20">
                               {call_decision}
                             </div>
                           </div>
@@ -355,24 +406,21 @@ function App() {
                             {callplotData && (
                               <div className="bg-black/20 p-4 rounded-xl border border-white/5">
                                 <h4 className="text-lg font-medium mb-4">CRR Call Plot</h4>
-                                <Plot
-                                  data={JSON.parse(callplotData).data}
-                                  layout={{
-                                    ...JSON.parse(callplotData).layout,
-                                    paper_bgcolor: 'rgba(0,0,0,0)',
-                                    plot_bgcolor: 'rgba(0,0,0,0)',
-                                    font: { color: '#fff' },
-                                    autosize: true
-                                  }}
-                                  useResizeHandler={true}
-                                  style={{ width: "100%", height: "400px" }}
-                                />
+                             
+<div className="bg-black/20 p-4 rounded-xl border border-white/5">
+                            <img
+                              src={`data:image/png;base64,${callplotData}`}
+                              alt="CRR Call Plot"
+                              style={{ width: "100%", height: "auto" }}
+                            />
+                          </div>
+
                               </div>
                             )}
                             {putplotData && (
                               <div className="bg-black/20 p-4 rounded-xl border border-white/5">
                                 <h4 className="text-lg font-medium mb-4">CRR Put Plot</h4>
-                                <Plot
+                                {/* <Plot
                                   data={JSON.parse(putplotData).data}
                                   layout={{
                                     ...JSON.parse(putplotData).layout,
@@ -383,7 +431,14 @@ function App() {
                                   }}
                                   useResizeHandler={true}
                                   style={{ width: "100%", height: "400px" }}
-                                />
+                                /> */}
+                                <div className="bg-black/20 p-4 rounded-xl border border-white/5">
+                            <img
+                              src={`data:image/png;base64,${putplotData}`}
+                              alt="CRR Put Plot"
+                              style={{ width: "100%", height: "auto" }}
+                            />
+                          </div>
                               </div>
                             )}
                           </div>
@@ -400,7 +455,7 @@ function App() {
                       <CardContent>
                         {vasicekPlot && (
                           <div className="bg-black/20 p-4 rounded-xl border border-white/5">
-                            <img 
+                            <img
                               src={`data:image/png;base64,${vasicekPlot}`}
                               alt="Vasicek Simulation"
                               style={{ width: "100%", height: "auto" }}
@@ -420,53 +475,31 @@ function App() {
                         {binomial_plot && (
                           <div className="bg-black/20 p-4 rounded-xl border border-white/5">
                             <h4 className="text-lg font-medium mb-4">Binomial Tree</h4>
-                            <img 
+                            <img
                               src={`data:image/png;base64,${binomial_plot}`}
                               alt="Binomial Tree Simulation"
                               style={{ width: "100%", height: "auto" }}
                             />
-                             {/* <Plot
-                                  data={JSON.parse(binomial_plot).data}
-                                  layout={{
-                                    ...JSON.parse(binomial_plot).layout,
-                                    paper_bgcolor: 'rgba(0,0,0,0)',
-                                    plot_bgcolor: 'rgba(0,0,0,0)',
-                                    font: { color: '#fff' },
-                                    autosize: true
-                                  }}
-                                  useResizeHandler={true}
-                                  style={{ width: "100%", height: "500px" }}
-                                /> */}
+                            
                           </div>
                         )}
                         {trinomial_plot && (
                           <div className="bg-black/20 p-4 rounded-xl border border-white/5">
                             <h4 className="text-lg font-medium mb-4">Trinomial Tree</h4>
-                            <img 
+                            <img
                               src={`data:image/png;base64,${trinomial_plot}`}
                               alt="Trinomial Simulation"
                               style={{ width: "100%", height: "auto" }}
                             />
-                             {/* <Plot
-                                  data={JSON.parse(trinomial_plot).data}
-                                  layout={{
-                                    ...JSON.parse(trinomial_plot).layout,
-                                    paper_bgcolor: 'rgba(0,0,0,0)',
-                                    plot_bgcolor: 'rgba(0,0,0,0)',
-                                    font: { color: '#fff' },
-                                    autosize: true
-                                  }}
-                                  useResizeHandler={true}
-                                  style={{ width: "100%", height: "500px" }}
-                                /> */}
+                            
                           </div>
                         )}
                       </CardContent>
                     </Card>
                   )}
-                  
+
                   {!loading && !monteCarloResult && !blackScholesResult && !vasicekResult && !binomialandtrinomialResult && selectedModel !== "YC" && (
-                    <div className="flex flex-col items-center justify-center h-64 glass-card rounded-xl text-center p-8">
+                    <div className="flex flex-col items-center justify-center h-64 glass-card rounded-xl text-center p-8 h-full">
                       <div className="bg-white/5 p-4 rounded-full mb-4">
                         <TrendingUp className="w-8 h-8 text-gray-400" />
                       </div>
@@ -482,6 +515,9 @@ function App() {
           </div>
         </div>
       </main>
+
+</div>
+      
     </div>
   );
 }

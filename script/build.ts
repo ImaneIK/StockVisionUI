@@ -53,7 +53,7 @@ async function buildAll() {
     format: "cjs",
     outfile: "dist/index.cjs",
     define: {
-      "process.env.NODE_ENV": '"production"',
+      "import.meta.env.NODE_ENV": '"production"',
     },
     minify: true,
     external: externals,

@@ -76,7 +76,7 @@ const YieldCurveVisualization = () => {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <Label>β₀ (Level)</Label>
-                <span className="text-sm font-mono text-primary">{(beta0 * 100).toFixed(2)}%</span>
+                <span className="text-sm font-mono text-gray-100">{(beta0 * 100).toFixed(2)}%</span>
               </div>
               <Slider
                 value={[beta0 * 100]}
@@ -90,7 +90,7 @@ const YieldCurveVisualization = () => {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <Label>β₁ (Slope)</Label>
-                <span className="text-sm font-mono text-primary">{(beta1 * 100).toFixed(2)}%</span>
+                <span className="text-sm font-mono text-gray-100">{(beta1 * 100).toFixed(2)}%</span>
               </div>
               <Slider
                 value={[beta1 * 100]}
@@ -104,7 +104,7 @@ const YieldCurveVisualization = () => {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <Label>β₂ (Curvature)</Label>
-                <span className="text-sm font-mono text-primary">{(beta2 * 100).toFixed(2)}%</span>
+                <span className="text-sm font-mono text-gray-100">{(beta2 * 100).toFixed(2)}%</span>
               </div>
               <Slider
                 value={[beta2 * 100]}
@@ -120,7 +120,7 @@ const YieldCurveVisualization = () => {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <Label>β₃ (Second Curvature)</Label>
-                <span className="text-sm font-mono text-primary">{(beta3 * 100).toFixed(2)}%</span>
+                <span className="text-sm font-mono text-gray-100">{(beta3 * 100).toFixed(2)}%</span>
               </div>
               <Slider
                 value={[beta3 * 100]}
@@ -134,7 +134,7 @@ const YieldCurveVisualization = () => {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <Label>τ₁ (First Decay)</Label>
-                <span className="text-sm font-mono text-primary">{tau1.toFixed(2)}</span>
+                <span className="text-sm font-mono text-gray-100">{tau1.toFixed(2)}</span>
               </div>
               <Slider
                 value={[tau1]}
@@ -148,7 +148,7 @@ const YieldCurveVisualization = () => {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <Label>τ₂ (Second Decay)</Label>
-                <span className="text-sm font-mono text-primary">{tau2.toFixed(2)}</span>
+                <span className="text-sm font-mono text-gray-100">{tau2.toFixed(2)}</span>
               </div>
               <Slider
                 value={[tau2]}
