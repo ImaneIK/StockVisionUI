@@ -1,0 +1,7 @@
+name = "stockvision-ui"
+type = "javascript" # still needed, even if just static
+compatibility_date = "2026-02-18"
+
+[site]
+bucket = "./dist"
+entry-point = "."
