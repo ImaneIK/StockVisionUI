@@ -1,6 +1,6 @@
 name = "stockvision"
 compatibility_date = "2026-02-18"
 
-# Only static site — no Worker script
+# Deploy your Vite build as a static site
 [site]
 bucket = "./dist"
