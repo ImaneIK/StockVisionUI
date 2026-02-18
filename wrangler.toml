@@ -1,7 +1,6 @@
 name = "stockvision"
-type = "javascript" # still needed, even if just static
 compatibility_date = "2026-02-18"
 
+# Only static site — no Worker script
 [site]
 bucket = "./dist"
-entry-point = "."
