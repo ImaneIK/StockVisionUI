@@ -1,8 +1,6 @@
 name = "stockvision"
-compatibility_date = "2026-02-18"
-
-main = "dist/index.js"
 compatibility_date = "2024-01-01"
+main = "dist/index.js"
 
 [build]
 command = "npm run build"
@@ -14,4 +12,3 @@ vars = { ENVIRONMENT = "production" }
 
 [[routes]]
 pattern = "*"
-#zone_name = "yourdomain.com"  # Replace with your domain
