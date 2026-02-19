@@ -76,7 +76,7 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        import.meta.env.REACT_APP_API_URL,
+        import.meta.env.REACT_APP_API_URL || "https://stockvision-9lfd.onrender.com",
         {
           model: selectedModel,
           ticker: ticker,
@@ -105,7 +105,7 @@ function App() {
     setLoading(true);
     try { 
       const response = await axios.post(
-        import.meta.env.REACT_APP_API_URL,
+        import.meta.env.REACT_APP_API_URL || "https://stockvision-9lfd.onrender.com",
         {
           model: selectedModel,
           ticker: ticker,
@@ -140,7 +140,7 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        import.meta.env.REACT_APP_API_URL,
+        import.meta.env.REACT_APP_API_URL || "https://stockvision-9lfd.onrender.com",
         {
           ticker: ticker,
           model: selectedModel,
@@ -168,7 +168,7 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(
-        import.meta.env.REACT_APP_API_URL,
+        import.meta.env.REACT_APP_API_URL || "https://stockvision-9lfd.onrender.com",
         {
           model: selectedModel,
           vasicek_volatility: vasicek_volatility,
