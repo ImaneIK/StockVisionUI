@@ -250,7 +250,7 @@ function App() {
 <div className="overflow-auto h-full w-full">
 
 <Hero />
-      <main className="container mx-auto pb-20">
+      <main className="container mx-auto pb-20 h-screen" id="app">
         <Toggle selectedModel={selectedModel} handleModelChange={handleModelChange} />
 
         <div className="mt-8 px-4">
