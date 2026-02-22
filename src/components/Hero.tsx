@@ -101,7 +101,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="hidden md:blockabsolute bottom-2/3 md:top-1/2 right-20 md:-translate-y-1/2">
+        <div className="hidden md:block absolute bottom-2/3 md:top-1/2 right-20 md:-translate-y-1/2">
           <svg className="absolute top-4" width="300" height="120" viewBox="0 0 300 120">
             {/* Arch curving from bottom right */}
             <path
