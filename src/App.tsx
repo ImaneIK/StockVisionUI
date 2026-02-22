@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Plot from "react-plotly.js";
 import { Loader2, TrendingUp } from "lucide-react";
 import Hero from "@/components/Hero";
 import Toggle from "@/components/Toggle";
@@ -9,11 +8,11 @@ import BlackScholesForm from "@/components/BlackScholesForm";
 import VasicekForm from "@/components/VasicekForm";
 import BinomialandTrinomialForm from "@/components/BinomialandTrinomialForm";
 import YieldCurveVisualization from "@/components/YieldCurveVisualization";
-import heroImage from "@assets/generated_images/futuristic_financial_dashboard_background_with_neon_data_lines.png";
 
 // Import UI components for Results section
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Toaster } from "./components/ui/toaster";
+import { useToast } from "./hooks/use-toast";
 
 function App() {
   const [selectedModel, setSelectedModel] = useState("MonteCarlo");
@@ -21,6 +20,7 @@ function App() {
   const [monteCarloResult, setmonteCarloResult] = useState<any>("");
   const [binomialandtrinomialResult, setbinomialandtrinomialResult] = useState(false);
   const [ycResult, setYCResult] = useState<any>("");
+  const { toast } = useToast();
 
   const [blackScholesResult, setblackScholesResult] = useState<any>("");
   const [loading, setLoading] = useState(false);
@@ -93,9 +93,24 @@ function App() {
       setBinomialPlotData(response.data.result.binomial_tree_plot);
       setTrinomialPlotData(response.data.result.trinomial_tree_plot);
       setbinomialandtrinomialResult(true);
+      toast({ title: "Simulation Complete", description: "Binomial and Trinomial Tree simulation completed successfully!" })    
     } catch (error) {
-      console.error("Response data:", error);
-    } finally {
+  if (axios.isAxiosError(error)) {
+    if (!error.response) {
+      toast({
+        title: "Network Error",
+        description: "Failed to connect. Check your internet.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: `Error ${error.response.status}`,
+        description: error.response.data?.message || "Request failed",
+        variant: "destructive",
+      });
+    }
+  }
+} finally {
       setLoading(false);
     }
   };
@@ -128,9 +143,22 @@ function App() {
       setPutDecision(result.put_decision);
       setCallPlotData(result.crr_call_plot_data);
       setPutPlotData(result.crr_put_plot_data);
-    } catch (error: any) {
-      console.error("Response data:", error?.response?.data);
-    } finally {
+    } catch (error) {
+  if (axios.isAxiosError(error)) {
+    if (!error.response) {
+      toast({
+        title: "Network Error",
+        description: "Failed to connect. Check your internet.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: `Error ${error.response.status}`,
+        description: error.response.data?.message || "Request failed",
+        variant: "destructive",
+      });
+    }
+  }} finally {
       setLoading(false);
     }
   };
@@ -156,9 +184,22 @@ function App() {
       setProbabilityOfBreakeven(result.ProbabilityOfBreakeven);
       setPath1(`data:image/png;base64,${result.path1}`);
       setPath2(`data:image/png;base64,${result.path2}`);
-    } catch (error) {
-      console.error("Error processing data:", error);
-    } finally {
+      } catch (error) {
+  if (axios.isAxiosError(error)) {
+    if (!error.response) {
+      toast({
+        title: "Network Error",
+        description: "Failed to connect. Check your internet.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: `Error ${error.response.status}`,
+        description: error.response.data?.message || "Request failed",
+        variant: "destructive",
+      });
+    }
+  }} finally {
       setLoading(false);
     }
   };
@@ -185,8 +226,21 @@ function App() {
       setVasicekPlot(result?.plot);
       // console.log("Vasicek response:", response.data.result.plot);
     } catch (error) {
-      console.error("Response data:", error);
-    } finally {
+  if (axios.isAxiosError(error)) {
+    if (!error.response) {
+      toast({
+        title: "Network Error",
+        description: "Failed to connect. Check your internet.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: `Error ${error.response.status}`,
+        description: error.response.data?.message || "Request failed",
+        variant: "destructive",
+      });
+    }
+  }} finally {
       setLoading(false);
     }
   };
@@ -517,7 +571,7 @@ function App() {
       </main>
 
 </div>
-      
+      <Toaster />
     </div>
   );
 }
